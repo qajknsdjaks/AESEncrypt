@@ -1,0 +1,3 @@
+include ':arms', ':autosize', ':arms-imageloader-glide'
+include ':fragmentation',':fragmentation_core', ':fragmentation_swipeback', ':eventbus_activity_scope'
+include ':app'
