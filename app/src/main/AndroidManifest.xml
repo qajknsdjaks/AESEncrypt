@@ -43,7 +43,7 @@
             android:name="design_height_in_dp"
             android:value="640" /> <!-- arms配置 -->
         <meta-data
-            android:name="com.lydsk.mylive.app.GlobalConfiguration"
+            android:name="com.kldbj.ajks.app.GlobalConfiguration"
             android:value="ConfigModule" />
     </application>
 

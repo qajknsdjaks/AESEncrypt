@@ -35,7 +35,7 @@ final class CustomResponseBodyConverter<T> implements Converter<ResponseBody, T>
             JsonTTTResult result = JSON.parseObject(response , JsonTTTResult.class);
             Log.d("TAG", "================" + result.getData());
             try {
-                mResult = EncryptManager.getInstance().decrypt(result.getData());
+                mResult = EncryptUtil.decrypt(result.getData());
             } catch (Exception e) {
                 e.printStackTrace();
             }

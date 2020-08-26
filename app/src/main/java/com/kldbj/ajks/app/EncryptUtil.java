@@ -5,56 +5,45 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class EncryptManager 
+public class EncryptUtil
 {
-    private static volatile EncryptManager instance;
-    public static String appKey = "scb37537f85scxpcm59f7e318b9epa51";
-    private Cipher cipher;
-    private String encryptKey;
+
+    public static String appKey = "e79465cfbb39ckcusimcuekd3b066a6e";
+    private static Cipher cipher;
+    private static String encryptKey;
     private boolean isDebug = false;
-    private byte[][] key_iv;
-    private SecretKeySpec skeySpec;
-    
-    private EncryptManager() {
+    private static byte[][] key_iv;
+    private static SecretKeySpec skeySpec;
+
+
+    static {
+//        init("132f1537f85scxpcm59f7e318b9epa51", "e79465cfbb39ckcusimcuekd3b066a6e");
         try {
-            this.cipher = Cipher.getInstance("AES/CFB/NoPadding");
+            cipher = Cipher.getInstance("AES/CFB/NoPadding");
         } catch (Exception e) {
             e.printStackTrace();
-            this.cipher = null;
+            cipher = null;
         }
-    }
-    
-    public static EncryptManager getInstance() {
-        if (instance == null) {
-            synchronized (EncryptManager.class) {
-                if (instance == null) {
-                    instance = new EncryptManager();
-                }
-            }
-        }
-        return instance;
-    }
-    
-    public void init(String str, String str2) {
-        this.encryptKey = str;
-        this.appKey = str2;
+        encryptKey = "132f1537f85scxpcm59f7e318b9epa51";
+        appKey = "e79465cfbb39ckcusimcuekd3b066a6e";
         try {
-            this.key_iv = EVP_BytesToKey(32, 16, (byte[]) null, str.getBytes("UTF-8"), 0);
-            this.skeySpec = new SecretKeySpec(this.key_iv[0], "AES");
+            key_iv = EVP_BytesToKey(32, 16, (byte[]) null, encryptKey.getBytes("UTF-8"), 0);
+            skeySpec = new SecretKeySpec(key_iv[0], "AES");
         } catch (Exception e) {
             e.printStackTrace();
-            this.skeySpec = null;
+            skeySpec = null;
         }
     }
+
     
-    public String encrypt(String str) {
-        if (str.isEmpty() || this.cipher == null || this.skeySpec == null) {
+    public static String encrypt(String str) {
+        if (str.isEmpty() || cipher == null || skeySpec == null) {
             return null;
         }
         try {
-            this.cipher.init(1, this.skeySpec);
+            cipher.init(1, skeySpec);
             try {
-                return byte2hex(byteMerger(this.cipher.getIV(), this.cipher.doFinal(str.getBytes("UTF-8"))));
+                return byte2hex(byteMerger(cipher.getIV(), cipher.doFinal(str.getBytes("UTF-8"))));
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -65,16 +54,16 @@ public class EncryptManager
         }
     }
     
-    public String decrypt(String str) {
-        if (str.isEmpty() || this.cipher == null || this.skeySpec == null) {
+    public static String decrypt(String str) {
+        if (str.isEmpty() || cipher == null || skeySpec == null) {
             return null;
         }
         byte[] hex2byte = hex2byte(str);
         byte[] copyOfRange1 = Arrays.copyOfRange(hex2byte, 0, 16);
         byte[] copyOfRange2 = Arrays.copyOfRange(hex2byte, 16, hex2byte.length);
         try {
-            this.cipher.init(2, this.skeySpec, new IvParameterSpec(copyOfRange1));
-            String result = new String(this.cipher.doFinal(copyOfRange2), "UTF-8");
+            cipher.init(2, skeySpec, new IvParameterSpec(copyOfRange1));
+            String result = new String(cipher.doFinal(copyOfRange2), "UTF-8");
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,7 +159,7 @@ public class EncryptManager
     }
     
     public boolean isCanEncrypt() {
-        return !this.encryptKey.isEmpty() && !this.appKey.isEmpty();
+        return !encryptKey.isEmpty() && !appKey.isEmpty();
     }
     
     public static String byte2hex(byte[] bArr) {
@@ -192,5 +181,62 @@ public class EncryptManager
         System.arraycopy(bArr2, 0, bArr3, bArr.length, bArr2.length);
         return bArr3;
     }
+    public static String getTimestamp() {
+        return String.format("%010d", new Object[]{Long.valueOf(System.currentTimeMillis() / 1000)});
+    }
 
+    public static String getSHA256StrJava(String str) {
+        try {
+            MessageDigest instance = MessageDigest.getInstance("SHA-256");
+            instance.update(str.getBytes("UTF-8"));
+            return byte2Hex(instance.digest());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String byte2Hex(byte[] bArr) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (byte b : bArr) {
+            String hexString = Integer.toHexString(b & 255);
+            if (hexString.length() == 1) {
+                stringBuffer.append("0");
+            }
+            stringBuffer.append(hexString);
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String bytesToHex(byte[] var0) {
+        StringBuilder var1 = new StringBuilder();
+        int var2 = 0;
+
+        for(int var3 = var0.length; var2 < var3; ++var2) {
+            byte var4 = var0[var2];
+            int var5 = var4;
+            if (var4 < 0) {
+                var5 = var4 + 256;
+            }
+
+            if (var5 < 16) {
+                var1.append("0");
+            }
+
+            var1.append(Integer.toHexString(var5));
+        }
+
+        return var1.toString();
+    }
+
+    public static String getMD5(String var0) {
+        try {
+            var0 = bytesToHex(MessageDigest.getInstance("MD5").digest(var0.getBytes("UTF-8")));
+        } catch (Exception var1) {
+            var1.printStackTrace();
+            var0 = "";
+        }
+
+        return var0;
+    }
 }
