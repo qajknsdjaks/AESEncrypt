@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.base.BaseActivity;
@@ -50,7 +51,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View  , SwipeRefreshLayout.OnRefreshListener{
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -66,7 +67,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.activity_main; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
-
+    @BindView(R.id.contentView)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.token)
     TextView txtToken;
     @BindView(R.id.recyclerView)
@@ -91,7 +93,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     }
                 });
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter = new MVlistAdapter(R.layout.item_mvlist_video));
         adapter.setOnItemClickListener((adapter, view, position) -> {
@@ -99,18 +104,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             intent.putExtra("data" ,(MVideo) adapter.getData().get(position));
             launchActivity(intent);
         });
+
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                mPresenter.loadVideoListData(  );
+
+            }
+        }, recyclerView);
     }
 
     @Override
     public void showLoading(String key) {
-        loadingDialog.show(key);
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        loadingDialog.dismiss();
+        mSwipeRefreshLayout.setRefreshing(false);
+        adapter.loadMoreComplete();
     }
-
+    @Override
+    public void onRefresh() {
+        mPresenter.getJJKKToken();
+    }
     @Override
     public boolean isCancel() {
         return false;
@@ -140,12 +157,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     MVlistAdapter adapter;
     @Override
     public void showMVListRecomm(List<MVideo> videoList) {
-
         adapter.setNewData(videoList);
+    }
+
+    @Override
+    public void showMoreMVListRecomm(List<MVideo> list) {
+        adapter.addData(list);
     }
 
     @OnClick({R.id.button   })
     public void onViewClicked(View view) {
         mPresenter.getJJKKToken();
     }
+
+
 }

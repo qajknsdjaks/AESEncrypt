@@ -34,6 +34,8 @@ public interface MainContract {
         void showToken(String token);
 
         void showMVListRecomm(List<MVideo> list);
+
+        void showMoreMVListRecomm(List<MVideo> list);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
