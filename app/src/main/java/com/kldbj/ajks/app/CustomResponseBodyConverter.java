@@ -2,7 +2,7 @@ package com.kldbj.ajks.app;
 
 import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.kldbj.ajks.app.bean.JsonTTTResult;
 
@@ -23,16 +23,18 @@ final class CustomResponseBodyConverter<T> implements Converter<ResponseBody, T>
     private final TypeAdapter<T> adapter;
     private String mResult;
 
-    CustomResponseBodyConverter(TypeAdapter<T> adapter) {
+    CustomResponseBodyConverter(Gson gson,TypeAdapter<T> adapter) {
+        this.gson = gson;
         this.adapter = adapter;
     }
 
+    private final Gson gson;
     @Override
     public T convert(ResponseBody value) throws IOException {
         try {
             //解密
             String response = value.string();
-            JsonTTTResult result = JSON.parseObject(response , JsonTTTResult.class);
+            JsonTTTResult result = gson.fromJson(response , JsonTTTResult.class);
             Log.d("TAG", "================" + result.getData());
             try {
                 mResult = EncryptUtil.decrypt(result.getData());
