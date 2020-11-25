@@ -62,8 +62,8 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
     }
     int page = 1;
     public void getJJKKToken() {
-        page = 1;
-        mModel.getMvListRecommend(1)
+
+        mModel.getJJKKTokenJson( )
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))
                 .doOnSubscribe(disposable -> {
@@ -71,7 +71,7 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ErrorHandleSubscriber<JsonMVListRecomm>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriber<String>(mErrorHandler) {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         mRootView.hideLoading();
@@ -79,11 +79,33 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                     }
 
                     @Override
-                    public void onNext(@NonNull JsonMVListRecomm result) {
+                    public void onNext(@NonNull String result) {
                         mRootView.hideLoading();
-                        mRootView.showMVListRecomm(result.getData().getList());
+                       System.out.println(result);
                     }
                 });
+//        page = 1;
+//        mModel.getMvListRecommend(1)
+//                .subscribeOn(Schedulers.io())
+//                .retryWhen(new RetryWithDelay(3, 2))
+//                .doOnSubscribe(disposable -> {
+//                    mRootView.showLoading(new Date().toString());
+//                })
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new ErrorHandleSubscriber<JsonMVListRecomm>(mErrorHandler) {
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        mRootView.hideLoading();
+//                        mRootView.showMessage(e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(@NonNull JsonMVListRecomm result) {
+//                        mRootView.hideLoading();
+//                        mRootView.showMVListRecomm(result.getData().getList());
+//                    }
+//                });
     }
 
     public void loadVideoListData() {
