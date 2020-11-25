@@ -17,6 +17,7 @@ import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 import javax.inject.Inject;
 
+import com.kldbj.ajks.app.bean.UserInfo;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 import com.kldbj.ajks.home.mvp.contract.MainContract;
@@ -71,7 +72,7 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ErrorHandleSubscriber<String>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriber<UserInfo>(mErrorHandler) {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         mRootView.hideLoading();
@@ -79,33 +80,33 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                     }
 
                     @Override
-                    public void onNext(@NonNull String result) {
+                    public void onNext(@NonNull UserInfo result) {
                         mRootView.hideLoading();
-                       System.out.println(result);
+                        mRootView.showMessage(result.getData().getNickname());
                     }
                 });
-//        page = 1;
-//        mModel.getMvListRecommend(1)
-//                .subscribeOn(Schedulers.io())
-//                .retryWhen(new RetryWithDelay(3, 2))
-//                .doOnSubscribe(disposable -> {
-//                    mRootView.showLoading(new Date().toString());
-//                })
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new ErrorHandleSubscriber<JsonMVListRecomm>(mErrorHandler) {
-//                    @Override
-//                    public void onError(@NonNull Throwable e) {
-//                        mRootView.hideLoading();
-//                        mRootView.showMessage(e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onNext(@NonNull JsonMVListRecomm result) {
-//                        mRootView.hideLoading();
-//                        mRootView.showMVListRecomm(result.getData().getList());
-//                    }
-//                });
+        page = 1;
+        mModel.getMvListRecommend(1)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))
+                .doOnSubscribe(disposable -> {
+                    mRootView.showLoading(new Date().toString());
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriber<JsonMVListRecomm>(mErrorHandler) {
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        mRootView.hideLoading();
+                        mRootView.showMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(@NonNull JsonMVListRecomm result) {
+                        mRootView.hideLoading();
+                        mRootView.showMVListRecomm(result.getData().getList());
+                    }
+                });
     }
 
     public void loadVideoListData() {

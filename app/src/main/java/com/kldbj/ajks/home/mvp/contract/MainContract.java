@@ -3,6 +3,7 @@ package com.kldbj.ajks.home.mvp.contract;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
 import com.kldbj.ajks.app.bean.JJKKTokenJson;
+import com.kldbj.ajks.app.bean.UserInfo;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 import com.kldbj.ajks.home.mvp.bean.MVideo;
 import com.kldbj.ajks.app.bean.JJKKTokenJson;
@@ -40,7 +41,7 @@ public interface MainContract {
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
-        Observable<String> getJJKKTokenJson();
+        Observable<UserInfo> getJJKKTokenJson();
 
         Observable<JsonMVListRecomm> getMvListRecommend(int page);
     }
