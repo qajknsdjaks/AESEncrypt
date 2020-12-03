@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe(permission -> { // will emit 1 Permission object
                     if (permission.granted) {
-                        mPresenter.getJJKKToken();
+                        mPresenter.getPlayUrl();
                     } else if (permission.shouldShowRequestPermissionRationale) {
 
                     } else {
@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                mPresenter.loadVideoListData(  );
+
 
             }
         }, recyclerView);
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
     @Override
     public void onRefresh() {
-        mPresenter.getJJKKToken();
+
     }
     @Override
     public boolean isCancel() {
@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @OnClick({R.id.button   })
     public void onViewClicked(View view) {
-        mPresenter.getJJKKToken();
+        mPresenter.getPlayUrl();
     }
 
 

@@ -3,10 +3,7 @@ package com.kldbj.ajks.home.mvp.contract;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
 import com.kldbj.ajks.app.bean.JJKKTokenJson;
-import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
-import com.kldbj.ajks.home.mvp.bean.MVideo;
-import com.kldbj.ajks.app.bean.JJKKTokenJson;
-import com.kldbj.ajks.app.bean.JsonTTTResult;
+import com.kldbj.ajks.app.bean.JsonNangua;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 import com.kldbj.ajks.home.mvp.bean.MVideo;
 
@@ -43,5 +40,8 @@ public interface MainContract {
         Observable<JJKKTokenJson> getJJKKTokenJson();
 
         Observable<JsonMVListRecomm> getMvListRecommend(int page);
+
+        Observable<JsonNangua> getPlayUrl(String request_key);
+        Observable<JsonNangua> getUserInfo(String request_key);
     }
 }

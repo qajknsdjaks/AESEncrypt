@@ -2,9 +2,7 @@ package com.kldbj.ajks.app.service;
 
 import com.google.gson.JsonObject;
 import com.kldbj.ajks.app.bean.JJKKTokenJson;
-import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
-import com.kldbj.ajks.app.bean.JJKKTokenJson;
-import com.kldbj.ajks.app.bean.JsonTTTResult;
+import com.kldbj.ajks.app.bean.JsonNangua;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 
 import io.reactivex.Observable;
@@ -36,7 +34,35 @@ public interface CommonService {
     Observable<JsonMVListRecomm> apiMvListRecommend(@Body JsonObject body );
 
 
+//    http://jk.xgrruyx.cn/App/UserInfo/getUserInfo
+//    POST /App/UserInfo/getUserInfo HTTP/1.1
+//    Content-Type: application/x-www-form-urlencoded
+//    Content-Length: 379
+//    Host: jk.xgrruyx.cn
+//    Connection: Keep-Alive
+//    Accept-Encoding: gzip
+//    User-Agent: okhttp/3.12.0
+//
+//    token=d26bf87c3a75c951f12f3743b6195c40&token_id=12824744&phone_type=1&versions_code=1401&request_key=EBCBE2AA8A48856D49BE4500FB7ED276384106AC01368A5A84E4687A0A0869AE6A8D8CD4AFC6210CE608C758BBFB0FFF87E711D99CB404AC6BDE7B37B389EEB74F37184EDA2B660632C2D54728E94ED1035A39E5BB943A522502BA77962CA6EEA13BE734E915A9751F814F4FDF547782FE68CBD28A6EB5E2E7A4E1904604F582&app_id=1&ad_version=1
+    @Headers({"content-type:application/x-www-form-urlencoded" ,"User-Agent:okhttp/3.12.0"})
+    @POST("http://jk.xgrruyx.cn/App/UserInfo/getUserInfo")
+    Observable<JsonNangua> apiUserInfo(@Body String body );
 
 
+
+
+//    http://jk.xgrruyx.cn/App/IndexPlay/playUrl
+
+//    Content-Type: application/x-www-form-urlencoded
+//    Content-Length: 571
+//    Host: jk.xgrruyx.cn
+//    Connection: Keep-Alive
+//    Accept-Encoding: gzip
+//    User-Agent: okhttp/3.12.0
+//
+//    token=d26bf87c3a75c951f12f3743b6195c40&token_id=12824744&phone_type=1&versions_code=1401&request_key=DFB426E40904649CAD89334B481FA89EF1C5224BDCFDBC94C6AD5431CE8EA10E86273E5BA42657D520F2242BDE9F9896470AFC6F012637E66A613FCC8EEC1D8E9CD839BEB7F596E664F0F77D0A40CC3063398ACF569E4E505322B1F3DBBACEDDF8C1F5D14D850F68C7BC3301C615EB298D7DF74A99FEA6DB5AF911A5BD7E5D3099B5BE53FB883425B98579B02FB9C42FF207AE9F55FDB0576A0118DF5EFABE67C2C7152839594E6D128944208252C929DD4FBF4C923233DBF3E64CC9E254E02208B54AB0D771F197990A63D372440F180F6BD2FF8047FD67355848D857B2EBF9&app_id=1&ad_version=1
+    @Headers({"content-type:application/x-www-form-urlencoded" ,"User-Agent:okhttp/3.12.0"})
+    @POST("http://jk.xgrruyx.cn/App/IndexPlay/playUrl")
+    Observable<JsonNangua> apiPlayUrl(@Body String body );
 
 }
