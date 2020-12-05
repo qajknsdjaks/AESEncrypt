@@ -189,7 +189,8 @@ public class PlayVideoActivity extends BaseActivity<PlayVideoPresenter> implemen
                 detailPlayer.startWindowFullscreen(PlayVideoActivity.this, true, true);
             }
         });
-//        http://videong.skzic.cn/20200716/qdm7UnaV/hls/index.m3u8?wsSecret=fb70774ba64b58f808ee6923e9946aa6&wsTime=1607130794
+//      http://videong.skzic.cn/20200716/qdm7UnaV/hls/index.m3u8?wsSecret=9425f8b8aad3abb91c1e6aa6a510c384&wsTime=1607181700
+//      http://videong.skzic.cn/20200716/qdm7UnaV/hls/index.m3u8?wsSecret=fb70774ba64b58f808ee6923e9946aa6&wsTime=1607130794
         detailPlayer.setUp("http://videong.skzic.cn/20200716/qdm7UnaV/hls/index.m3u8?wsSecret=fb70774ba64b58f808ee6923e9946aa6&wsTime=1607130794", true, "title()");
 
         detailPlayer.startPlayLogic();
