@@ -65,4 +65,15 @@ public interface CommonService {
     @POST("http://jk.xgrruyx.cn/App/IndexPlay/playUrl")
     Observable<JsonNangua> apiPlayUrl(@Body String body );
 
+//    POST /App/UserInfo/getUserInfo HTTP/1.1
+//    Content-Type: application/x-www-form-urlencoded
+//    Content-Length: 379
+//    Host: jk.owhasqa.cn
+//    Connection: Keep-Alive
+//    Accept-Encoding: gzip
+//    User-Agent: okhttp/3.12.0
+//    token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key=&app_id=1&ad_version=1
+
+
+
 }

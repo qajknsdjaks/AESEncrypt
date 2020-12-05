@@ -87,7 +87,7 @@ public class MainModel extends BaseModel implements MainContract.Model {
 
     @Override
     public Observable<JsonNangua> getUserInfo(String request_key) {
-        String body="token=d26bf87c3a75c951f12f3743b6195c40&token_id=12824744&phone_type=1&versions_code=1401&request_key=EBCBE2AA8A48856D49BE4500FB7ED276384106AC01368A5A84E4687A0A0869AE6A8D8CD4AFC6210CE608C758BBFB0FFF87E711D99CB404AC6BDE7B37B389EEB74F37184EDA2B660632C2D54728E94ED1035A39E5BB943A522502BA77962CA6EEA13BE734E915A9751F814F4FDF547782FE68CBD28A6EB5E2E7A4E1904604F582&app_id=1&ad_version=1";
+        String body="token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key="+request_key+"&app_id=1&ad_version=1";
         Observable<JsonNangua> result = mRepositoryManager.obtainRetrofitService(CommonService.class)
                 .apiPlayUrl(body );
         return result;
