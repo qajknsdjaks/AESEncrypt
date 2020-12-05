@@ -167,7 +167,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @OnClick({R.id.button   })
     public void onViewClicked(View view) {
-        mPresenter.getPlayUrl();
+       // mPresenter.getPlayUrl();
+        startActivity(new Intent(this,PlayVideoActivity.class));
     }
 
 

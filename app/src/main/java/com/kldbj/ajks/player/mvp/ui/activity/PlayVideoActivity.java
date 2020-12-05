@@ -30,6 +30,9 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -66,7 +69,7 @@ public class PlayVideoActivity extends BaseActivity<PlayVideoPresenter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        MVideo mVideo = (MVideo) getIntent().getSerializableExtra("data");
+//        MVideo mVideo = (MVideo) getIntent().getSerializableExtra("data");
 
 
 
@@ -91,9 +94,21 @@ public class PlayVideoActivity extends BaseActivity<PlayVideoPresenter> implemen
         /**仅仅横屏旋转，不变直*/
         //orientationUtils.setOnlyRotateLand(true);
 
-//        Map<String, String> header = new HashMap<>();
-//        header.put("ee", "33");
-//        header.put("allowCrossProtocolRedirects", "true");
+        Map<String, String> header = new HashMap<>();
+
+//User-Agent: Lavf/57.83.100
+//Accept: */*
+//Range: bytes=0-
+//Connection: close
+//Host: videong.skzic.cn
+//Icy-MetaData: 1
+//referer: http://f.fimm9v.com/
+        header.put("User-Agent", "Lavf/57.83.100");
+        header.put("Accept", "*/*");
+//        header.put("Range", "bytes=0-");
+        header.put("Host", "videong.skzic.cn");
+        header.put("Icy-MetaData", "1");
+        header.put("referer", "http://f.fimm9v.com/");
         GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
         gsyVideoOption.setThumbImageView(imageView)
                 .setIsTouchWiget(true)
@@ -104,7 +119,7 @@ public class PlayVideoActivity extends BaseActivity<PlayVideoPresenter> implemen
                 .setAutoFullWithSize(false)
                 .setShowFullAnimation(false)
                 .setNeedLockFull(true)
-//                .setMapHeadData(header)
+                .setMapHeadData(header)
                 .setCacheWithPlay(true)
                 .setVideoAllCallBack(new GSYSampleCallBack() {
                     @Override
@@ -174,8 +189,9 @@ public class PlayVideoActivity extends BaseActivity<PlayVideoPresenter> implemen
                 detailPlayer.startWindowFullscreen(PlayVideoActivity.this, true, true);
             }
         });
+//        http://videong.skzic.cn/20200716/qdm7UnaV/hls/index.m3u8?wsSecret=fb70774ba64b58f808ee6923e9946aa6&wsTime=1607130794
+        detailPlayer.setUp("http://videong.skzic.cn/20200716/qdm7UnaV/hls/index.m3u8?wsSecret=fb70774ba64b58f808ee6923e9946aa6&wsTime=1607130794", true, "title()");
 
-        detailPlayer.setUp(mVideo.getSource_240(), true, mVideo.getTitle());
         detailPlayer.startPlayLogic();
     }
 
