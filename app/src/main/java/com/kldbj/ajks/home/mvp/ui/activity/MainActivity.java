@@ -88,6 +88,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 .subscribe(permission -> { // will emit 1 Permission object
                     if (permission.granted) {
                         mPresenter.getIndexList();
+                        mPresenter.getPlayUrl();
                         mPresenter.getUserInfo();
                     } else if (permission.shouldShowRequestPermissionRationale) {
 
@@ -173,7 +174,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             for (JsonNanguaList.ListBeanX lx: list){
                 listBeans.addAll(lx.getList());
             }
-            adapter.addData(listBeans);
+            adapter.setNewData(listBeans.subList(0,10));
     }
 
 
