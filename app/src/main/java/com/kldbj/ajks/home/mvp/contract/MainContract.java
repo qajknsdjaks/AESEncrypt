@@ -4,6 +4,7 @@ import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
 import com.kldbj.ajks.app.bean.JJKKTokenJson;
 import com.kldbj.ajks.app.bean.JsonNangua;
+import com.kldbj.ajks.app.bean.JsonNanguaList;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 import com.kldbj.ajks.home.mvp.bean.MVideo;
 
@@ -33,6 +34,9 @@ public interface MainContract {
         void showMVListRecomm(List<MVideo> list);
 
         void showMoreMVListRecomm(List<MVideo> list);
+
+        void showNanguaList(List<JsonNanguaList.ListBeanX> list);
+
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -43,5 +47,6 @@ public interface MainContract {
 
         Observable<JsonNangua> getPlayUrl(String request_key);
         Observable<JsonNangua> getUserInfo(String request_key);
+        Observable<JsonNangua> getIndexList( );
     }
 }

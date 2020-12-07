@@ -19,6 +19,10 @@ import com.kldbj.ajks.app.service.CommonService;
 import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 import com.kldbj.ajks.home.mvp.contract.MainContract;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import io.reactivex.Observable;
 
 
@@ -86,12 +90,46 @@ public class MainModel extends BaseModel implements MainContract.Model {
 //    token=d26bf87c3a75c951f12f3743b6195c40&token_id=12824744&phone_type=1&versions_code=1401&request_key=EBCBE2AA8A48856D49BE4500FB7ED276384106AC01368A5A84E4687A0A0869AE6A8D8CD4AFC6210CE608C758BBFB0FFF87E711D99CB404AC6BDE7B37B389EEB74F37184EDA2B660632C2D54728E94ED1035A39E5BB943A522502BA77962CA6EEA13BE734E915A9751F814F4FDF547782FE68CBD28A6EB5E2E7A4E1904604F582&app_id=1&ad_version=1
 
 //    token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key=8B5FF9864CAC68E3CF21BD77B45F1CFBA4F769EF3786D1B808C0B5F3624C0A4EC72D48EFB05153B89C0683F457DEC958186A814132AB6DB8C3A3115BCB8BE6B022497EF11946ABE9D2E6874CF724D971E1EFA118942905BA7F2E13F5A3904A93C62CB470AD7BCC77621F1CD298095D36A0970060DB53148C5C9CC7E626DBA955&app_id=1&ad_version=1
+
     @Override
     public Observable<JsonNangua> getUserInfo(String request_key) {
         String body="token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key=8B5FF9864CAC68E3CF21BD77B45F1CFBA4F769EF3786D1B808C0B5F3624C0A4EC72D48EFB05153B89C0683F457DEC958186A814132AB6DB8C3A3115BCB8BE6B022497EF11946ABE9D2E6874CF724D971E1EFA118942905BA7F2E13F5A3904A93C62CB470AD7BCC77621F1CD298095D36A0970060DB53148C5C9CC7E626DBA955&app_id=1&ad_version=1";
+        body = "token=e2c797fdc72998569eadc09b74ab9e41" +
+                "&token_id=93446681" +
+                "&phone_type=1" +
+                "&versions_code=1401" +
+                "&request_key=B9DAF5D3063C3567A72B547D2AA3AD12702F34CCBB1AC9C0FC034248984840196B1AFB3D799EA8342878E7E304059B0080E21922E7EC82CF011BC478524410332CB04E6318CDE573140EB074C08E0890B9FB4DA0D93193C2100FCCC5B842D3A588CBC9867CE36A934F04891692C0F8BE79706862139610CFB013D686E0C90F26" +
+                "&app_id=1" +
+                "&ad_version=1";
+        Map map= new LinkedHashMap();
+        map.put("token","e2c797fdc72998569eadc09b74ab9e41");
+        map.put("token_id","93446681");
+        map.put("phone_type","1");
+        map.put("versions_code","1401");
+        map.put("request_key","B9DAF5D3063C3567A72B547D2AA3AD12702F34CCBB1AC9C0FC034248984840196B1AFB3D799EA8342878E7E304059B0080E21922E7EC82CF011BC478524410332CB04E6318CDE573140EB074C08E0890B9FB4DA0D93193C2100FCCC5B842D3A588CBC9867CE36A934F04891692C0F8BE79706862139610CFB013D686E0C90F26");
+        map.put("app_id","1");
+        map.put("ad_version","1");
+
 
         Observable<JsonNangua> result = mRepositoryManager.obtainRetrofitService(CommonService.class)
-                .apiUserInfo(body );
+                .apiUserInfo(map );
+        return result;
+    }
+
+    @Override
+    public Observable<JsonNangua> getIndexList() {
+        Map map= new LinkedHashMap();
+        map.put("token","e2c797fdc72998569eadc09b74ab9e41");
+        map.put("token_id","93446681");
+        map.put("phone_type","1");
+        map.put("versions_code","1401");
+        map.put("request_key","E444E3BE410CF491D843EA5AC82D4764B0C9CCC968DCC9B862EC6FABA399BF065CD7FA56922FB6082339D2A8D5FD01B4AEE4EAD4DE348BA1528607D59179A1B32143A862FC3B377F7C4E240F2EC4725E");
+        map.put("app_id","1");
+        map.put("ad_version","1");
+
+
+        Observable<JsonNangua> result = mRepositoryManager.obtainRetrofitService(CommonService.class)
+                .apiIndexList(map );
         return result;
     }
 

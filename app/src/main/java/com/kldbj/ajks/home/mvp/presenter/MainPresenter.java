@@ -2,6 +2,7 @@ package com.kldbj.ajks.home.mvp.presenter;
 
 import android.app.Application;
 
+import com.alibaba.fastjson.JSON;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -17,10 +18,12 @@ import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import javax.inject.Inject;
 
 import com.kldbj.ajks.app.bean.JsonNangua;
+import com.kldbj.ajks.app.bean.JsonNanguaList;
 import com.kldbj.ajks.home.mvp.contract.MainContract;
 
 import java.security.MessageDigest;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -130,6 +133,7 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                     public void onNext(@NonNull JsonNangua result) {
                         mRootView.hideLoading();
                         if (result.getCode() == 200){
+//                            {"playKey":"?wsSecret=926928b5e904abb452f7dfd97f876b2a&wsTime=1607309107","playRef":"http:\/\/f.fimm9v.com\/"}
                             String decrypt = e.d(result.getData().getResponse_key(), "8jhM5h6dezq4QifP", "tho3aAHJyZCWAfTG");
                             mRootView.showMessage(decrypt);
                         }else {
@@ -141,11 +145,9 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                 });
         //        1607180463+5D0sUw@vT4
 //        {"s":"1cc40358cda345ec2384ba99fd419cd4","t":"1607180463","ns":"dc28eb380f3f90a9b2a74402df1feaed","nt":"1607180464"}
-        String t1 = System.currentTimeMillis()+"";
-        String t2 = System.currentTimeMillis()+"";
 
-        String strxx2 = "{\"s\":\""+ getMD5(t1+"5D0sUw@vT4")+"\",\"t\":\""+t1+"\"," +
-                "\"ns\":\""+ getMD5("com.pumpkinteam.pumpkinplayer96D89D9AC7A9AA1AF6F634ED4463AAE5E7798C45C2C606CAB00CA73DA8A1005A&z4Y!s!2br"+t2).toLowerCase()+"\",\"nt\":\""+t2+"\"}";
+
+
 //        token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key=&app_id=1&ad_version=1
 //        POST /App/UserInfo/getUserInfo HTTP/1.1
 //        Content-Type: application/x-www-form-urlencoded
@@ -156,9 +158,16 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
 //        User-Agent: okhttp/3.12.0
 //
 //        token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key=&app_id=1&ad_version=1
-        String key = e.f(strxx2, "8jhM5h6dezq4QifP", "tho3aAHJyZCWAfTG");
-        String request_keyxx2 = "token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key"+key+"=&app_id=1&ad_version=1";
-        mModel.getUserInfo( request_keyxx2 )
+
+    }
+    public void getUserInfo() {
+        String t1 = System.currentTimeMillis()+"";
+        String t2 = System.currentTimeMillis()+"";
+        String strxx = "{\"s\":\""+ getMD5(t1+"5D0sUw@vT4")+"\",\"t\":\""+t1+"\"," +
+                "\"ns\":\""+ getMD5("com.pumpkinteam.pumpkinplayer96D89D9AC7A9AA1AF6F634ED4463AAE5E7798C45C2C606CAB00CA73DA8A1005A&z4Y!s!2br"+t2).toLowerCase()+"\",\"nt\":\""+t2+"\"}";
+        String key = e.f(strxx, "8jhM5h6dezq4QifP", "tho3aAHJyZCWAfTG");
+        String request_keyxx = "token=e2c797fdc72998569eadc09b74ab9e41&token_id=93446681&phone_type=1&versions_code=1401&request_key"+key+"=&app_id=1&ad_version=1";
+        mModel.getUserInfo( request_keyxx )
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))
                 .doOnSubscribe(disposable -> {
@@ -186,7 +195,45 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
 
                     }
                 });
+
     }
+
+    public void getIndexList() {
+        mModel.getIndexList()
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))
+                .doOnSubscribe(disposable -> {
+                    mRootView.showLoading(new Date().toString());
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriber<JsonNangua>(mErrorHandler) {
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        mRootView.hideLoading();
+                        mRootView.showMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(@NonNull JsonNangua result) {
+                        mRootView.hideLoading();
+                        if (result.getCode() == 200){
+                            String decrypt = e.d(result.getData().getResponse_key(), "8jhM5h6dezq4QifP", "tho3aAHJyZCWAfTG");
+                            JsonNanguaList json = JSON.parseObject(decrypt,JsonNanguaList.class);
+//                            System.out.println(json);
+                            mRootView.showNanguaList(json.getList());
+                        }else {
+                            mRootView.showMessage(result.getCode()+result.getMsg());
+                        }
+
+
+                    }
+                });
+
+    }
+
+
+
     public String getMD5(String data) {
         char hexDigits[] = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
@@ -213,4 +260,7 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
             return null;
         }
     }
+
+
+
 }

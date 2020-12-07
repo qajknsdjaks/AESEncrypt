@@ -18,6 +18,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.kldbj.ajks.R;
+import com.kldbj.ajks.app.bean.JsonNanguaList;
 import com.kldbj.ajks.home.mvp.bean.MVideo;
 import com.kldbj.ajks.home.mvp.contract.MainContract;
 import com.kldbj.ajks.home.mvp.presenter.MainPresenter;
@@ -31,6 +32,7 @@ import com.kldbj.ajks.player.mvp.ui.activity.PlayVideoActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,8 +71,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
     @BindView(R.id.contentView)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.token)
-    TextView txtToken;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -86,7 +87,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe(permission -> { // will emit 1 Permission object
                     if (permission.granted) {
-                        mPresenter.getPlayUrl();
+                        mPresenter.getIndexList();
+                        mPresenter.getUserInfo();
                     } else if (permission.shouldShowRequestPermissionRationale) {
 
                     } else {
@@ -152,18 +154,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void showToken(String token) {
-        txtToken.setText(token);
+
     }
     MVlistAdapter adapter;
     @Override
     public void showMVListRecomm(List<MVideo> videoList) {
-        adapter.setNewData(videoList);
+
     }
 
     @Override
     public void showMoreMVListRecomm(List<MVideo> list) {
-        adapter.addData(list);
+
     }
+
+    @Override
+    public void showNanguaList(List<JsonNanguaList.ListBeanX> list) {
+            List<JsonNanguaList.ListBeanX.ListBean> listBeans = new ArrayList<>();
+            for (JsonNanguaList.ListBeanX lx: list){
+                listBeans.addAll(lx.getList());
+            }
+            adapter.addData(listBeans);
+    }
+
 
     @OnClick({R.id.button   })
     public void onViewClicked(View view) {

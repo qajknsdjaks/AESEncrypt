@@ -7,8 +7,12 @@ import com.kldbj.ajks.home.mvp.bean.JsonMVListRecomm;
 
 import org.json.JSONObject;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -47,8 +51,16 @@ public interface CommonService {
 //
 //    token=d26bf87c3a75c951f12f3743b6195c40&token_id=12824744&phone_type=1&versions_code=1401&request_key=EBCBE2AA8A48856D49BE4500FB7ED276384106AC01368A5A84E4687A0A0869AE6A8D8CD4AFC6210CE608C758BBFB0FFF87E711D99CB404AC6BDE7B37B389EEB74F37184EDA2B660632C2D54728E94ED1035A39E5BB943A522502BA77962CA6EEA13BE734E915A9751F814F4FDF547782FE68CBD28A6EB5E2E7A4E1904604F582&app_id=1&ad_version=1
     @Headers({"content-type:application/x-www-form-urlencoded" ,"User-Agent:okhttp/3.12.0"})
-    @POST("http://jk.xgrruyx.cn/App/UserInfo/getUserInfo")
-    Observable<JsonNangua> apiUserInfo(@Body String body );
+    @FormUrlEncoded
+    @POST("http://jk.owhasqa.cn/App/UserInfo/getUserInfo")
+    Observable<JsonNangua> apiUserInfo(@FieldMap Map<String, Object> map );
+
+
+
+    @Headers({"content-type:application/x-www-form-urlencoded" ,"User-Agent:okhttp/3.12.0"})
+    @FormUrlEncoded
+    @POST("http://jk.owhasqa.cn/App/IndexList/index")
+    Observable<JsonNangua> apiIndexList(@FieldMap Map<String, Object> map );
 
 
 
